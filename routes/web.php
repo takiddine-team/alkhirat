@@ -144,6 +144,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('system', SystemLogsController::class)->only(['index', 'destroy']);
         Route::resource('audit', AuditLogsController::class)->only(['index', 'destroy']);
     });
+
+    Route::get('service/{service}/beneficiaries', [ServiceController::class, 'beneficiaries'])->name('services.beneficiary.index');
+    Route::post('service/{service}/beneficiaries', [ServiceController::class, 'save_beneficiaries'])->name('services.beneficiary.index');
 });
 
 

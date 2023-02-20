@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\Service;
 use App\Http\Controllers\Controller;
 use App\Interfaces\ServiceRepositoryInterface;
+use App\Models\Beneficiary;
+use App\Models\Beneficiary_service;
 use App\Models\Service;
 use DB;
 use Illuminate\Http\Request;
@@ -92,6 +94,54 @@ class ServiceController extends Controller {
   {
     Service::where('id',$id)->delete();
     return redirect()->back()->with('message', 'تمت ازالة الخدمة بنجاح');
+  }
+
+
+  public function beneficiaries(Service $service)
+  {
+    $beneficiaries = Beneficiary::query()->with('User', 'User.user', 'beneficiary_service')->get();
+
+    return view('pages.admin.services.beneficiaries', compact('service','beneficiaries'));
+  }
+
+
+  public function save_beneficiaries(Request $request, Service $service)
+  {
+    $data = $request->validate([
+      'beneficiaries' => [
+        'required',
+        'array'
+      ],
+      'beneficiaries.*.id' => [
+        'nullable',
+        'numeric',
+      ],
+      'beneficiaries.*.quantity' => [
+        'nullable',
+        'numeric',
+      ],
+      'beneficiaries.*.note' => [
+        'nullable',
+        'string',
+      ],
+    ]);
+
+    $service->beneficiary()->delete();
+
+    $bs = collect($data['beneficiaries'])->map(function ($item) use ($service) {
+      if (array_key_exists('id', $item))
+        return [
+          "beneficiary_id" => $item['id'],
+          "service_id" => $service->id,
+          "quantity" => $item['quantity'],
+          "note" => $item['note'],
+        ];
+    })->filter()->toArray();
+
+    Beneficiary_service::insert($bs);
+
+    return redirect()->route('services.index');
+
   }
 
 }

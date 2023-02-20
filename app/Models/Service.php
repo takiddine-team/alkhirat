@@ -18,7 +18,7 @@ class Service extends Model {
 
 	public function beneficiary()
 	{
-		return $this->hasMany('Beneficiary_service', 'service_id');
+		return $this->hasMany(Beneficiary_service::class, 'service_id');
 	}
 
 	public function serviceType()
