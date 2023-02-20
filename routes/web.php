@@ -13,6 +13,7 @@ use App\Http\Controllers\Beneficiary\{SkillController, CertificateController, Be
 use App\Http\Controllers\Supporter\{SupporterController, Supporter_contributionController, Supporter_influenceController, PaymentController};
 use App\Http\Controllers\DataTables\{
     BeneficiaryDataTablesController,
+    DataTableController,
     ServiceDataTablesController,
     VolunteerDataTablesController,
     SupporterDataTablesController
@@ -76,6 +77,14 @@ Route::middleware('auth')->group(function () {
     Route::get('volunteer/list', [VolunteerDataTablesController::class, 'volunteers'])->name('volunteer.list');
     Route::get('service/list', [ServiceDataTablesController::class, 'services'])->name('service.list');
     Route::get('supporter/list', [SupporterDataTablesController::class, 'supporters'])->name('supporter.list');
+
+    Route::get('projects/list', [DataTableController::class, 'project_list'])->name('projects.list');
+    Route::get('activities/list', [DataTableController::class, 'activities_list'])->name('activities.list');
+    Route::get('contrib/list', [DataTableController::class, 'contrib_list'])->name('contrib.list');
+    Route::get('user/list', [DataTableController::class, 'user_list'])->name('user.list');
+    Route::get('payment_methods/list', [DataTableController::class, 'payment_methods'])->name('payment_methods.list');
+    Route::get('payments/list', [DataTableController::class, 'payments_list'])->name('payments.list');
+    Route::get('service-types/list', [DataTableController::class, 'service_types_list'])->name('service_types.list');
 
     Route::get('supporter/rightsDuties', [SupporterController::class, 'rightsDuties'])->name('supporter.rightsDuties');
 

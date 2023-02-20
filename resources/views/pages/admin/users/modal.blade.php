@@ -15,7 +15,7 @@
                 @endif
                 <div class="modal-header" id="kt_modal_add_customer_header">
                     <h2 class="fw-bolder">
-                        {{ is_null($_content) ? 'نوع خدمة جديدة' : 'تعديل نوع الخدمة'}}
+                        {{ is_null($_content) ? 'مستخدم جديد' : 'تعديل المستخدم'}}
                     </h2>
                     <button id="kt_modal_add_customer_close" data-dismiss="modal" aria-label="Close"
                         class="btn btn-icon btn-sm btn-active-icon-primary">

@@ -68,17 +68,12 @@
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Table-->
-                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_products_table">
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
                                 <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
                                     <th class="w-10px pe-2">
-                                        <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                            <input class="form-check-input" type="checkbox" data-kt-check="true"
-                                                data-kt-check-target="#kt_customers_table .form-check-input"
-                                                value="1" />
-                                        </div>
                                     </th>
                                     <th class="min-w-125px">الاسم</th>
                                     <th></th>
@@ -88,28 +83,6 @@
                             <!--end::Table head-->
                             <!--begin::Table body-->
                             <tbody class="fw-bold text-gray-600">
-                                @foreach ($methods as $content)
-                                    <tr>
-                                        <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="checkbox" value="1" />
-                                            </div>
-                                        </td>
-                                        <td>{{ $content->name }}</td>
-                                        <td class="">
-                                            <a href="{{ route('payment-methods.edit', $content->id) }}" class="edit-btn btn btn-primary">تعديل</a>
-                                            <form method="post" class="form"
-                                            style="display: inline-block"
-                                                action="{{ route('payment-methods.destroy', $content->id) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" value="{{ $content->id }}" name="id">
-                                                <button class="btn btn-danger" type="submit"
-                                                    value="مسح">مسح</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
                             </tbody>
                             <!--end::Table body-->
                         </table>
@@ -127,4 +100,34 @@
         <!--end::Post-->
     </div>
     <!--end::Content-->
+
+    @section('scripts')
+    <script src="{{ asset('demo8/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            var table = $('#kt_ecommerce_products_table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('payment_methods.list') }}",
+                columns: [
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'actions',
+                        name: 'actions',
+                        sortable: false,
+                        searchable: false,
+                    },
+                ]
+            });
+
+        });
+    </script>
+@endsection
 </x-base-layout>

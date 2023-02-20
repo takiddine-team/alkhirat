@@ -61,7 +61,7 @@
                     <!--begin::Card body-->
                     <div class="card-body pt-0">
                         <!--begin::Table-->
-                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_ecommerce_products_table">
                             <!--begin::Table head-->
                             <thead>
                                 <!--begin::Table row-->
@@ -84,31 +84,6 @@
                             <!--end::Table head-->
                             <!--begin::Table body-->
                             <tbody class="fw-bold text-gray-600">
-                                @foreach ($payments as $content)
-                                    <tr>
-                                        <td>
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="checkbox" value="1" />
-                                            </div>
-                                        </td>
-                                        <td>{{ $content->supporter->user->name }}</td>
-                                        <td>{{ $content->payment_method->name }}</td>
-                                        <td>{{ $content->amount }}</td>
-                                        <td>{{ $content->note }}</td>
-                                        <td class="">
-                                            <a href="{{ route('payments.edit', $content->id) }}" class="btn btn-primary edit-btn">تعديل</a>
-                                            <a href="{{ route('payments.show', $content->id) }}" class="btn btn-primary">تفاصيل</a>
-                                            <form method="post" class="form" style="display: inline-block"
-                                                action="{{ route('payments.destroy', $content->id) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" value="{{ $content->id }}" name="id">
-                                                <button class="btn btn-danger" type="submit"
-                                                    value="مسح">مسح</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
                             </tbody>
                             <!--end::Table body-->
                         </table>
@@ -126,4 +101,44 @@
         <!--end::Post-->
     </div>
     <!--end::Content-->
+
+    @section('scripts')
+        <script src="{{ asset('demo8/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+        <script type="text/javascript">
+            $(function() {
+                var table = $('#kt_ecommerce_products_table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('payments.list') }}",
+                    columns: [{
+                            data: 'id',
+                            name: 'id'
+                        },
+                        {
+                            data: 'supporter',
+                            name: 'supporter'
+                        },
+                        {
+                            data: 'payment_method',
+                            name: 'payment_method'
+                        },
+                        {
+                            data: 'amount',
+                            name: 'amount'
+                        },
+                        {
+                            data: 'note',
+                            name: 'note'
+                        },
+                        {
+                            data: 'actions',
+                            name: 'actions',
+                            sortable: false,
+                            searchable: false,
+                        },
+                    ]
+                });
+            });
+        </script>
+    @endsection
 </x-base-layout>

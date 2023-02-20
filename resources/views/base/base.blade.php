@@ -113,7 +113,7 @@
             $(this).remove()
         })
 
-        $('.edit-btn').on('click', function(e) {
+        $(document).on('click', '.edit-btn', function(e) {
             e.preventDefault()
             e.stopPropagation()
 
