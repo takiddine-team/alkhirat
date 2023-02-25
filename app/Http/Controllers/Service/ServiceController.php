@@ -59,7 +59,9 @@ class ServiceController extends Controller {
    */
   public function show($id)
   {
+    $service = Service::find($id);
 
+    return view('pages.admin.services.show', compact('service'));
   }
 
   /**
@@ -70,7 +72,9 @@ class ServiceController extends Controller {
    */
   public function edit($id)
   {
+    $_content = \App\Models\Service::find($id);
 
+    return view('pages.admin.services.modal', compact('_content'));
   }
 
   /**
@@ -79,9 +83,20 @@ class ServiceController extends Controller {
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request, $id)
   {
+    $data = $request->all();
 
+    $service = \App\Models\Service::find($id);
+
+    $service->serviceType_id = $data['serviceType_id'];
+    $service->service_name = $data['service_name'];
+    $service->description = $data['service_description'];
+    $service->quantity = $data['quantity'];
+    $service->organization_id = $data['organization_id'];
+    $service->save();
+
+    return redirect()->route('services.index');
   }
 
   /**

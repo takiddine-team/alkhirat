@@ -1,4 +1,11 @@
 <x-base-layout>
+    <style>
+        [data-user-name] {
+            border: 1px solid #efefef;
+            padding: 0.7rem 1rem;
+            border-radius: 6px;
+        }
+    </style>
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <x-alert>
         </x-alert>
@@ -21,7 +28,7 @@
                         <form class="mt-5" method="POST">
                             @csrf
 
-                            <ul style="list-style: none">
+                            <ul style="list-style: none; padding: 0;">
                                 @foreach ($beneficiaries as $key => $b)
 								@php
 									$row = $b->beneficiary_service->filter(function($item) use ($service) {
@@ -33,24 +40,24 @@
 								@endphp
                                     <li data-user-name="{{ $b->user->user->name }}">
                                         <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <input id="{{ $b->id }}" type="checkbox"
-                                                    value="{{ $b->id }}"
-													{{ !is_null($row) ? 'checked' : ''}}
-                                                    name="beneficiaries[{{ $key }}][id]">
+                                            <div class="mt-md-0 mt-3 col-md-3 col-12">
+                                                <div class="d-flex align-items-center">
+                                                    <input id="{{ $b->id }}" type="checkbox"
+                                                        value="{{ $b->id }}"
+                                                        {{ !is_null($row) ? 'checked' : ''}}
+                                                        name="beneficiaries[{{ $key }}][id]">
+                                                    <label class="m-0 ms-2" for="{{ $b->id }}">
+                                                        {{ $b->user->user->name }}
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="col-3">
-                                                <label for="{{ $b->id }}">
-                                                    {{ $b->user->user->name }}
-                                                </label>
-                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="mt-md-0 mt-3 col-md-4">
                                                 <input type="number" class="form-control"
                                                     name="beneficiaries[{{ $key }}][quantity]"
 													value="{{ $quantity }}"
                                                     placeholder="الكمية">
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="mt-md-0 mt-3 col-md-4">
                                                 <textarea class="form-control" name="beneficiaries[{{ $key }}][note]" placeholder="ملاحظة">{{ $note }}</textarea>
                                             </div>
                                         </div>
@@ -69,10 +76,10 @@
     @section('scripts')
         <script>
             $('#search').on('keyup', function() {
-                let value = $(this).val()
+                let value = $(this).val().trim().toLowerCase()
                 if (value != '') {
                     $('[data-user-name]').map(function(key, item) {
-                        if (!$(item).data('user-name').includes(value)) {
+                        if (!$(item).data('user-name').toLowerCase().includes(value)) {
                             $(item).hide()
                         } else {
                             $(item).show()

@@ -51,7 +51,7 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                <!--begin::Table-->
-               <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+               <table class="table align-middle table-row-dashed fs-6 gy-5 table-responsive" id="kt_customers_table">
                   <!--begin::Table head-->
                   <thead>
                      <!--begin::Table row-->

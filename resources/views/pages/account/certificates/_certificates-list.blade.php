@@ -61,7 +61,7 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Table-->
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 table-responsive" id="kt_customers_table">
                         <!--begin::Table head-->
                         <thead>
                         <!--begin::Table row-->
@@ -80,28 +80,30 @@
 
                         </thead>
                         <tbody class="fw-bold text-gray-600">
-                            @foreach($info->beneficiaryProfile->certificate as $key => $value)
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                            <input class="form-check-input" type="checkbox" value="1" />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="text-gray-800 text-hover-primary mb-1">{{ $value->certificate_name }}</a>
-                                    </td>
-                                    <td>
-                                        {{ $value->certificate_date }}
-                                    </td>
-                                    <td>{{ $value->note }} </td>
-                                    <td><a target="_blank" href="{{ url(asset('storage/attachments/certificate/'.$value->attachment)) }}" >{{ $value->attachment }} </a></td>
-                                    <td >
-                                       <div class="menu-item px-3">
-                                            <a href="{{route('settings.deletecertificate',$value->id) }}" class="menu-link px-3" data-kt-customer-table-filter="delete_row">حذف</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                        @endforeach
+                            @if (optional(optional($info)->beneficiaryProfile)->certificate)
+                                @foreach(optional(optional($info)->beneficiaryProfile)->certificate as $key => $value)
+                                    <tr>
+                                        <td>
+                                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                                <input class="form-check-input" type="checkbox" value="1" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="text-gray-800 text-hover-primary mb-1">{{ $value->certificate_name }}</a>
+                                        </td>
+                                        <td>
+                                            {{ $value->certificate_date }}
+                                        </td>
+                                        <td>{{ $value->note }} </td>
+                                        <td><a target="_blank" href="{{ url(asset('storage/attachments/certificate/'.$value->attachment)) }}" >{{ $value->attachment }} </a></td>
+                                        <td >
+                                        <div class="menu-item px-3">
+                                                <a href="{{route('settings.deletecertificate',$value->id) }}" class="menu-link px-3" data-kt-customer-table-filter="delete_row">حذف</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
 
                         </tbody>
 

@@ -121,9 +121,14 @@
                 url: $(e.target).attr('href'),
                 success: r => {
                     $('body').append(r)
+                    console.log($('#kt_modal_edit_customer'));
                     $('#kt_modal_edit_customer').modal('show')
                 }
             })
+        })
+
+        $(document).on('click', '.modal [type=reset]', function(e) {
+            $(this).parents('.modal').modal('hide')
         })
     </script>
 </body>
