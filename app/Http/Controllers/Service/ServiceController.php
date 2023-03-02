@@ -45,6 +45,12 @@ class ServiceController extends Controller {
    */
   public function store(Request $request)
   {
+    $request->validate([
+      'service_name' => 'required|string|max:255',
+      'serviceType_id' => 'required|numeric',
+      'organization_id' => 'required|numeric'
+    ]);
+
     $data = $request->all();
     $service = $this->serviceRepository->createService($data);
     $services = Service::get();

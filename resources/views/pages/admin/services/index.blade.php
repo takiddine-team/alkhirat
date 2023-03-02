@@ -7,6 +7,13 @@
         <div class="post d-flex flex-column-fluid" id="kt_post">
             <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
+                @if ($errors->count() > 0)
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            {{ $error }} <br>
+                        @endforeach
+                    </div>
+                @endif
                 <!--begin::Products-->
                 <div class="card card-flush">
                     <!--begin::Card header-->
@@ -31,20 +38,9 @@
                         <!--end::Card title-->
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                            <div class="w-100 mw-150px">
-                                <!--begin::Select2-->
-                                <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Status" data-kt-ecommerce-product-filter="status">
-                                    <option></option>
-                                    <option value="all">الكل</option>
-                                    <option value="published">منشورة</option>
-                                    <option value="scheduled">مجدولة</option>
-                                    <option value="inactive">اكتملت</option>
-                                </select>
-                                <!--end::Select2-->
-                            </div>
                             <!--begin::Add product-->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#kt_modal_add_customer">إضافة حدمة جديدة
+                                    data-bs-target="#kt_modal_add_customer">إضافة خدمة جديدة
                             <!--end::Add product-->
                         </div>
                         <!--end::Card toolbar-->
@@ -117,7 +113,8 @@
                                     <h2 class="fw-bolder">إضافة خدمة جديدة</h2>
                                     <!--end::Modal title-->
                                     <!--begin::Close-->
-                                    <div id="kt_modal_add_customer_close"
+                                    <button id="kt_modal_add_customer_close"
+                                    data-dismiss="modal"
                                         class="btn btn-icon btn-sm btn-active-icon-primary">
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                         <span class="svg-icon svg-icon-1">
@@ -130,7 +127,7 @@
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
-                                    </div>
+                                    </button>
                                     <!--end::Close-->
                                 </div>
                                 <!--end::Modal header-->
@@ -150,7 +147,7 @@
                                             <label class="required fs-6 fw-bold mb-2">اسم الخدمة</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid" placeholder=""
+                                            <input type="text" class="form-control form-control-solid" placeholder="" required
                                                 name="service_name" value="" />
 
                                             <!--end::Input-->
@@ -162,7 +159,7 @@
                                             <!--begin::Input-->
                                             <label class="required fs-6 fw-bold mb-2">نوع الخدمة</label>
 
-                                            <select name="serviceType_id" aria-label="{{ __('نوع الخدمة') }}"
+                                            <select name="serviceType_id" aria-label="{{ __('نوع الخدمة') }}" required
                                                 data-control="select2" data-placeholder="{{ __('قم باختيار نوع الخدمة') }}"
                                                 class="form-select form-select-solid form-select-lg">
                                                 <option value="">{{ __('اختر نوع الخدمة ...') }}</option>
@@ -181,7 +178,7 @@
                                             <label class="required fs-6 fw-bold mb-2">الجهة المقدمة للخدمة</label>
 
                                             <select name="organization_id" aria-label="{{ __('الجهة المقدمة للخدمة') }}"
-                                                data-control="select2" data-placeholder="{{ __('قم باختيار الجهة') }}"
+                                                data-control="select2" data-placeholder="{{ __('قم باختيار الجهة') }}" required
                                                 class="form-select form-select-solid form-select-lg">
                                                 <option value="">{{ __('اختر الجهة المقدمة للخدمة ...') }}</option>
                                                 @foreach(\App\Models\Organization::all() as $value)
